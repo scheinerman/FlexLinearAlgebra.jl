@@ -13,7 +13,7 @@ is to create vectors (and eventually matrices) with arbitrary index sets.
 
 A `FlexVector` behaves much like a linear algebra vector, but the index set
 can be arbitrary. A new, all zero-valued vector is created by calling
-`FlexVector(dom)` where `dom` is the index set. This can be an iterable
+`FlexVector(dom)` where `dom` is the index set. This can be any iterable
 Julia object (such as an `Array`, `Set`, etc.). By default, the zero values
 in this vector are of type `Float64`, but one can also invoke `FlexVector{Int}(dom)`
 and the resulting vector's values are `Int`s.
@@ -32,6 +32,18 @@ FlexVector{Int64,Int64}:
   1 => 0
   3 => 0
   5 => 0
+
+julia> dom = ["alpha", "bravo", "charlie"]
+3-element Array{String,1}:
+ "alpha"  
+ "bravo"  
+ "charlie"
+
+julia> FlexVector{Complex}(dom)
+FlexVector{String,Complex}:
+  alpha => 0 + 0im
+  bravo => 0 + 0im
+  charlie => 0 + 0im
 ```
 
 ### Additional constructors
@@ -65,7 +77,7 @@ FlexVector{Int64,Complex{Int64}}:
 ### Accessing elements of a `FlexVector`
 
 The values held in a `FlexVector` may be accessed and modified using the usual
-Julia square-bracket:
+Julia square-bracket notation:
 ```julia
 julia> v[4]=7
 7
@@ -79,7 +91,7 @@ FlexVector{Int64,Float64}:
 ```
 The indices for a `FlexVector` `v` can be recovered using `keys(v)`.
 
-**Note**: Is is not an error to access a key that is undefined for a given
+**Note**: It is not an error to access a key that is undefined for a given
 vector. Even if `k` is not a key, one may assign to `v[k]`, in which case
 the vector is modified to include that value. One may also look up the value
 `v[k]` in which case zero is returned and the vector is *not* modified.
@@ -114,7 +126,7 @@ FlexVector{Int64,Complex{Float64}}:
   6 => 1.0 + 0.0im
 ```
 Notice that the two domains overlap at keys 2 and 3, so the result of the
-addition at those values is 2. At other keys there's a tacit zero value
+addition at those values is `2.0 + 0.0im`. At other keys, there's a tacit zero value
 taken from the vector that does not have that key.
 
 The sum of the entries in a vector can be computed with `sum(v)`. The
@@ -153,5 +165,6 @@ julia> dot(w,v)
 
 
 <hr>
+
 ## To-Do List
 + `FlexMatrix`
