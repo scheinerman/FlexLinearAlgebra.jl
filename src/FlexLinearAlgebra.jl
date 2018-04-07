@@ -2,7 +2,7 @@ module FlexLinearAlgebra
 
 import Base: (+), (-), (*), (==), dot, sum,
     getindex, setindex!, hash, show, keys, values,
-    keytype, valtype, length, haskey, hash
+    keytype, valtype, length, haskey, hash, Vector
 
 export FlexVector, FlexOnes, FlexConvert
 
@@ -46,7 +46,10 @@ end
 
 FlexOnes(dom) = FlexOnes(Float64,dom)
 
-
+"""
+`FlexConvert(vec)` converts the vector `vec` into a
+`FlexVector`.
+"""
 function FlexConvert{T}(v::Vector{T})
     n = length(v)
     w = FlexVector{T}(1:n)
@@ -54,7 +57,22 @@ function FlexConvert{T}(v::Vector{T})
         w[k] = v[k]
     end
     return w
-end 
+end
+
+function Vector(v::FlexVector)
+    klist = collect(keys(v))
+    try
+        sort!(klist)
+    end
+    n = length(klist)
+    result = Vector{valtype(v)}(n)
+    for k=1:n
+        result[k] = v[klist[k]]
+    end
+    return result
+end
+
+
 
 keys(v::FlexVector) = keys(v.data)
 values(v::FlexVector) = values(v.data)

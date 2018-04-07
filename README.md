@@ -96,6 +96,12 @@ vector. Even if `k` is not a key, one may assign to `v[k]`, in which case
 the vector is modified to include that value. One may also look up the value
 `v[k]` in which case zero is returned and the vector is *not* modified.
 
+### Convert to a Julia `Vector`
+
+If `v` is a `FlexVector`, then `Vector(v)` converts `v` into a Julia
+vector. The keys are lost and we simply have the values of `v` placed
+into a one-dimensional array. 
+
 ## Vector arithmetic
 
 Vector addition/subtraction and scalar multiplication are supported.

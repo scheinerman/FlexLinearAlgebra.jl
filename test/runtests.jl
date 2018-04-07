@@ -10,3 +10,7 @@ v[2] = 4
 v[3] = 4
 @test v == 4*FlexOnes(1:3)
 @test v[-1] == 0
+
+x = collect(1:5)
+v = FlexConvert(x)
+@test Vector(v) == x
