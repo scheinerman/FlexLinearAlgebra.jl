@@ -1,9 +1,10 @@
 module FlexLinearAlgebra
 
-import Base: (+), (-), (*), getindex, setindex!, hash, show, keys, values,
-    keytype, valtype, length, haskey
+import Base: (+), (-), (*), (==), dot, sum,
+    getindex, setindex!, hash, show, keys, values,
+    keytype, valtype, length, haskey, hash
 
-export FlexVector, FlexOnes
+export FlexVector, FlexOnes, FlexConvert
 
 """
 A `FlexVector` is a vector whose entries are indexed by arbitrary
@@ -46,6 +47,15 @@ end
 FlexOnes(dom) = FlexOnes(Float64,dom)
 
 
+function FlexConvert{T}(v::Vector{T})
+    n = length(v)
+    w = FlexVector{T}(1:n)
+    for k=1:n
+        w[k] = v[k]
+    end
+    return w
+end 
+
 keys(v::FlexVector) = keys(v.data)
 values(v::FlexVector) = values(v.data)
 
@@ -75,6 +85,12 @@ function show{S,T}(io::IO,v::FlexVector{S,T})
     end
     nothing
 end
+
+hash(v::FlexVector, h) = hash(v.data)
+(==)(v::FlexVector, w::FlexVector) = v.data == w.data
+
+
+##### Arithmetic #####
 
 # The _mush helper function mushes two vectors together.
 function _mush(v::FlexVector,w::FlexVector)::FlexVector
@@ -109,6 +125,16 @@ function (-)(v::FlexVector, w::FlexVector)::FlexVector
     return result
 end
 
+# This is a quick-and-dirty implementation. Can probably do something
+# more efficient but nothing here is efficient :-)
+function dot(v::FlexVector,w::FlexVector)
+    vw = _mush(v,w)
+    for k in keys(vw)
+        vw[k] = v[k]' * w[k]
+    end
+    return sum(values(vw))
+end
+
 function (*)(s::Number, v::FlexVector)::FlexVector
     if length(v) == 0
         return v
@@ -123,8 +149,8 @@ function (*)(s::Number, v::FlexVector)::FlexVector
     return sv
 end
 
+(-)(v::FlexVector) = -1 * v    # unary minus
 
-
-
+sum(v::FlexVector) = sum(values(v))
 
 end # module
