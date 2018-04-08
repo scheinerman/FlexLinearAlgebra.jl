@@ -1,7 +1,7 @@
 module FlexLinearAlgebra
 
 import Base: (+), (-), (*), (==), dot, sum, (.*),
-    getindex, setindex!, hash, show, keys, values,
+    getindex, setindex!, hash, show, keys, values, size,
     keytype, valtype, length, haskey, hash, Vector, Matrix
 
 

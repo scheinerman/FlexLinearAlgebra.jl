@@ -32,6 +32,8 @@ end
 
 FlexOnes(rows,cols) = FlexOnes(Float64,rows,cols)
 
+size(A::FlexMatrix) = (length(row_keys(A)), length(col_keys(A)))
+
 function FlexConvert{T}(A::Matrix{T})
     r,c = size(A)
     M = FlexMatrix{T}(1:r, 1:c)
@@ -79,6 +81,31 @@ function getindex{RC,T}(A::FlexMatrix{RC,T}, i, j)
 end
 
 setindex!(A::FlexMatrix,x,i,j) = setindex!(A.data,x,i,j)
+
+function (==)(A::FlexMatrix,B::FlexMatrix)
+    row_A = row_keys(A)
+    row_B = row_keys(B)
+
+    if Set(row_A) != Set(row_B)
+        return false
+    end
+
+    col_A = col_keys(A)
+    col_B = col_keys(B)
+
+    if Set(col_A) != Set(col_B)
+        return false
+    end
+
+    for i in row_A
+        for j in col_A
+            if A[i,j] != B[i,j]
+                return false
+            end
+        end
+    end
+    return true
+end 
 
 
 function Matrix(A::FlexMatrix)
@@ -156,6 +183,20 @@ function Base.broadcast(::typeof(*),A::FlexMatrix,B::FlexMatrix)
     return M
 end
 
+function (*)(s::Number, A::FlexMatrix)
+    if length(A.data)==0
+        return A
+    end
+    x = first(A.data)[2]
+    rows = row_keys(A)
+    cols = col_keys(A)
+    sA = FlexMatrix{typeof(x)}(rows,cols)
+    for ij = keys(A)
+        sA[ij...] = s * A[ij...]
+    end
+    return sA
+end
+
 
 function (*)(A::FlexMatrix, B::FlexMatrix)
     rowsA = row_keys(A)
@@ -178,6 +219,7 @@ function (*)(A::FlexMatrix, B::FlexMatrix)
     return M
 end
 
+(-)(A::FlexMatrix) = -1 * A
 
 function (*)(A::FlexMatrix, v::FlexVector)
     klist = row_keys(A)

@@ -100,7 +100,7 @@ the vector is modified to include that value. One may also look up the value
 
 If `v` is a `FlexVector`, then `Vector(v)` converts `v` into a Julia
 vector. The keys are lost and we simply have the values of `v` placed
-into a one-dimensional array. 
+into a one-dimensional array.
 
 ## Vector arithmetic
 
@@ -168,6 +168,20 @@ julia> dot(v,w)
 julia> dot(w,v)
 22 + 14im
 ```
+
+## The `FlexMatrix`
+
+A `FlexMatrix` is the 2-dimensional analogue of a `FlexVector`. Important
+functions include:
++ **Arithmetic**: Addition, subtraction, and multiplication (scalar, matrix-matrix,
+  and matrix-vector).
++ **Indexing**: Usual `A[i,j]` notation. Also see `row_keys` and `col_keys`
+  to get an iterator for the rows/columns.
++ `FlexConvert` to convert a Julia matrix into a `FlexMatrix`.
++ `Matrix(A)` to convert a `FlexMatrix` `A` into a Julia matrix.
+
+Note that assigning to a matrix `A[i,j]=x` will not fail. The set of row and
+column names will simply be expanded and extras slots filled with zeros. 
 
 
 <hr>
