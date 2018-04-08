@@ -14,3 +14,13 @@ v[3] = 4
 x = collect(1:5)
 v = FlexConvert(x)
 @test Vector(v) == x
+
+
+M = FlexConvert(eye(Int,3))
+@test M[1,1]==1
+
+A = [1 3; 4 5]
+v = [2; 3]
+AA = FlexConvert(A)
+vv = FlexConvert(v)
+@test Vector(AA*vv) == A*v

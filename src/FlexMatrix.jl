@@ -78,6 +78,8 @@ function getindex{RC,T}(A::FlexMatrix{RC,T}, i, j)
     return zero(T)
 end
 
+setindex!(A::FlexMatrix,x,i,j) = setindex!(A.data,x,i,j)
+
 
 function Matrix(A::FlexMatrix)
     rows = collect(row_keys(A))
@@ -108,8 +110,86 @@ function show{R,C,T}(io::IO, A::FlexMatrix{R,C,T})
     println(io,"FlexMatrix{($R,$C),$T}:")
     for r in rows
         for c in cols
-            println("  $((r,c)) ==> $(A.data[r,c])")
+            println("  $((r,c)) ==> $(A[r,c])")
         end
     end
     nothing
+end
+
+## Arithmetic
+
+function _mush(A::FlexMatrix,B::FlexMatrix)
+    rows = union(Set(row_keys(A)), Set(row_keys(B)))
+    cols = union(Set(col_keys(A)), Set(col_keys(B)))
+    TR = eltype(rows)
+    TC = eltype(cols)
+
+    TA = valtype(A)
+    TB = valtype(B)
+    TX = typeof(one(TA)+one(TB))
+
+    M = FlexMatrix{TX}(rows,cols)
+    return M
+end
+
+function (+)(A::FlexMatrix,B::FlexMatrix)
+    M = _mush(A,B)
+    for k in keys(M)
+        M[k...] = A[k...]+B[k...]
+    end
+    return M
+end
+
+function (-)(A::FlexMatrix,B::FlexMatrix)
+    M = _mush(A,B)
+    for k in keys(M)
+        M[k...] = A[k...]-B[k...]
+    end
+    return M
+end
+
+function Base.broadcast(::typeof(*),A::FlexMatrix,B::FlexMatrix)
+    M = _mush(A,B)
+    for k in keys(M)
+        M[k...] = A[k...]*B[k...]
+    end
+    return M
+end
+
+
+function (*)(A::FlexMatrix, B::FlexMatrix)
+    rowsA = row_keys(A)
+    colsB = col_keys(B)
+
+    TA = valtype(A)
+    TB = valtype(B)
+    TX = typeof(one(TA)+one(TB))
+
+    M = FlexMatrix{TX}(rowsA,colsB)
+
+    common = union( Set(col_keys(A)), Set(row_keys(B)) )
+
+    for i in rowsA
+        for j in colsB
+            M[i,j] = sum( A[i,k]*B[k,j] for k in common )
+        end
+    end
+
+    return M
+end
+
+
+function (*)(A::FlexMatrix, v::FlexVector)
+    klist = row_keys(A)
+    TA = valtype(A)
+    Tv = valtype(v)
+    Tw = typeof(one(TA)+one(Tv))
+    w = FlexVector{Tw}(klist)
+
+    sum_keys = union( Set(col_keys(A)), Set(keys(v)) )
+
+    for k in klist
+        w[k] = sum( A[k,j]*v[j] for j in sum_keys )
+    end
+    return w
 end
