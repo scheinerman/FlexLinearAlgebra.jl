@@ -73,7 +73,7 @@ function col_keys(M::FlexMatrix)
     return seconds
 end
 
-function getindex{RC,T}(A::FlexMatrix{RC,T}, i, j)
+function getindex{R,C,T}(A::FlexMatrix{R,C,T}, i, j)
     if haskey(A.data,(i,j))
         return A.data[i,j]
     end
@@ -105,7 +105,7 @@ function (==)(A::FlexMatrix,B::FlexMatrix)
         end
     end
     return true
-end 
+end
 
 
 function Matrix(A::FlexMatrix)
@@ -175,22 +175,16 @@ function (-)(A::FlexMatrix,B::FlexMatrix)
     return M
 end
 
-function Base.broadcast(::typeof(*),A::FlexMatrix,B::FlexMatrix)
-    M = _mush(A,B)
-    for k in keys(M)
-        M[k...] = A[k...]*B[k...]
-    end
-    return M
-end
 
 function (*)(s::Number, A::FlexMatrix)
     if length(A.data)==0
         return A
     end
-    x = first(A.data)[2]
+    x = s*first(A.data)[2]
     rows = row_keys(A)
     cols = col_keys(A)
     sA = FlexMatrix{typeof(x)}(rows,cols)
+
     for ij = keys(A)
         sA[ij...] = s * A[ij...]
     end

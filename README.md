@@ -176,15 +176,13 @@ functions include:
 + **Arithmetic**: Addition, subtraction, and multiplication (scalar, matrix-matrix,
   and matrix-vector).
 + **Indexing**: Usual `A[i,j]` notation. Also see `row_keys` and `col_keys`
-  to get an iterator for the rows/columns.
+  to get a list for the row/column names.
 + `FlexConvert` to convert a Julia matrix into a `FlexMatrix`.
 + `Matrix(A)` to convert a `FlexMatrix` `A` into a Julia matrix.
 
 Note that assigning to a matrix `A[i,j]=x` will not fail. The set of row and
-column names will simply be expanded and extras slots filled with zeros. 
-
+column names will simply be expanded and extra slots filled with zeros.
 
 <hr>
 
-## To-Do List
-+ `FlexMatrix`
+Can't seem to get `.*` multiplication working. 
