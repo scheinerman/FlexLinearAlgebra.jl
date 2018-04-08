@@ -20,7 +20,14 @@ M = FlexConvert(eye(Int,3))
 @test M[1,1]==1
 
 A = [1 3; 4 5]
+B = [-1.0 3; 5 -1.5]
 v = [2; 3]
 AA = FlexConvert(A)
+BB = FlexConvert(B)
 vv = FlexConvert(v)
 @test Vector(AA*vv) == A*v
+@test Matrix(AA*BB) == Matrix(A)*Matrix(B)
+@test (AA*BB)*vv == AA*(BB*vv)
+@test Set(row_keys(AA)) == Set(row_keys(BB))
+AA[1,3] = 2
+@test size(AA) == (2,3)
