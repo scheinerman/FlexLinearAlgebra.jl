@@ -31,3 +31,14 @@ vv = FlexConvert(v)
 @test Set(row_keys(AA)) == Set(row_keys(BB))
 AA[1,3] = 2
 @test size(AA) == (2,3)
+
+
+v = FlexOnes(Int,1:6)
+delete_entry!(v,5)
+delete_entry!(v,5)
+@test sum(v) == 5
+
+A = FlexOnes(Int,1:5,1:5)
+delete_row!(A,5)
+delete_col!(A,5)
+@test A == FlexOnes(Int,1:4,1:4)

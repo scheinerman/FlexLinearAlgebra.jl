@@ -91,6 +91,10 @@ FlexVector{Int64,Float64}:
 ```
 The indices for a `FlexVector` `v` can be recovered using `keys(v)`.
 
+To delete an entry from a `FlexVector` use `delete_entry!(v,k)` where
+`k` is the index of the entry to be deleted. 
+
+
 **Note**: It is not an error to access a key that is undefined for a given
 vector. Even if `k` is not a key, one may assign to `v[k]`, in which case
 the vector is modified to include that value. One may also look up the value
@@ -173,16 +177,18 @@ julia> dot(w,v)
 
 A `FlexMatrix` is the 2-dimensional analogue of a `FlexVector`. Important
 functions include:
-+ **Arithmetic**: Addition, subtraction, and multiplication (scalar, matrix-matrix,
++ Arithmetic: Addition, subtraction, and multiplication (scalar, matrix-matrix,
   and matrix-vector).
-+ **Indexing**: Usual `A[i,j]` notation. Also see `row_keys` and `col_keys`
++ Indexing: Usual `A[i,j]` notation. Also see `row_keys` and `col_keys`
   to get a list for the row/column names.
 + `FlexConvert` to convert a Julia matrix into a `FlexMatrix`.
 + `Matrix(A)` to convert a `FlexMatrix` `A` into a Julia matrix.
++ `delete_row!(A,r)` and `delete_col!(A,c)` are used to delete the line of
+  `A` specified.
 
 Note that assigning to a matrix `A[i,j]=x` will not fail. The set of row and
 column names will simply be expanded and extra slots filled with zeros.
 
 <hr>
 
-Can't seem to get `.*` multiplication working. 
+Can't seem to get `.*` multiplication working.

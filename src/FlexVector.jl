@@ -1,4 +1,4 @@
-export FlexVector, FlexOnes, FlexConvert
+export FlexVector, FlexOnes, FlexConvert, delete_entry!
 
 immutable FlexVector{S<:Any,T<:Number}
     data::Dict{S,T}
@@ -153,3 +153,14 @@ end
 (-)(v::FlexVector) = -1 * v    # unary minus
 
 sum(v::FlexVector) = sum(values(v))
+
+"""
+`delete_entry!(v,x)` deletes the entry indexed by `x` in the `FlexVector`
+`x`.
+"""
+function delete_entry!(v::FlexVector, x)
+    if haskey(v.data, x)
+        delete!(v.data,x)
+    end
+    return v
+end

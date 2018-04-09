@@ -1,4 +1,4 @@
-export FlexMatrix, row_keys, col_keys
+export FlexMatrix, row_keys, col_keys, delete_row!, delete_col!
 
 
 immutable FlexMatrix{R<:Any,C<:Any,T<:Number}
@@ -228,4 +228,28 @@ function (*)(A::FlexMatrix, v::FlexVector)
         w[k] = sum( A[k,j]*v[j] for j in sum_keys )
     end
     return w
+end
+
+
+"""
+`delete_row!(A,r)` deletes row `r` from the `FlexMatrix` `A`.
+"""
+function delete_row!(A::FlexMatrix, r)
+    for k in keys(A.data)
+        if k[1] == r
+            delete!(A.data,k)
+        end
+    end
+end
+
+
+"""
+`delete_col!(A,c)` deletes row `c` from the `FlexMatrix` `A`.
+"""
+function delete_col!(A::FlexMatrix, c)
+    for k in keys(A.data)
+        if k[2] == c
+            delete!(A.data,k)
+        end
+    end
 end
