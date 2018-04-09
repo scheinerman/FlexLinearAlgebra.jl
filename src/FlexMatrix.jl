@@ -253,3 +253,15 @@ function delete_col!(A::FlexMatrix, c)
         end
     end
 end
+
+function ctranspose(A::FlexMatrix)
+    R = row_keys(A)
+    C = col_keys(A)
+    T = valtype(A)
+    B = FlexMatrix{T}(C,R)
+    for k in keys(A)
+        i,j = k
+        B[j,i] = A[i,j]'
+    end
+    return B
+end

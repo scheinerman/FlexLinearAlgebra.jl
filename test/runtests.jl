@@ -53,10 +53,15 @@ AA[1,3] = 2
 @test size(AA) == (2,3)
 
 
-
+A = FlexMatrix{Int}(1:2,3:4)
+A[1,4] = 5
+@test sum(values(A)) == 5
 
 
 A = FlexOnes(Int,1:5,1:5)
 delete_row!(A,5)
 delete_col!(A,5)
 @test A == FlexOnes(Int,1:4,1:4)
+
+A = FlexOnes(1:3,6:12) + im * FlexOnes(1:3,6:12)
+@test Matrix(A') == Matrix(A)'
