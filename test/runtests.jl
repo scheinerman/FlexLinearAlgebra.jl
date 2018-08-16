@@ -1,5 +1,6 @@
 using FlexLinearAlgebra
-using Base.Test
+using LinearAlgebra
+using Test
 
 v = FlexConvert([4,5,6])
 @test v+v == 2v

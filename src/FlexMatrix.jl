@@ -1,7 +1,7 @@
 export FlexMatrix, row_keys, col_keys, delete_row!, delete_col!
 
 
-immutable FlexMatrix{R<:Any,C<:Any,T<:Number}
+struct FlexMatrix{R<:Any,C<:Any,T<:Number}
     data::Dict{Tuple{R,C},T}
     function FlexMatrix{T}(rows,cols) where T<:Number
         R = eltype(rows)
@@ -34,7 +34,7 @@ FlexOnes(rows,cols) = FlexOnes(Float64,rows,cols)
 
 size(A::FlexMatrix) = (length(row_keys(A)), length(col_keys(A)))
 
-function FlexConvert{T}(A::Matrix{T})
+function FlexConvert(A::Matrix{T}) where T
     r,c = size(A)
     M = FlexMatrix{T}(1:r, 1:c)
     for i=1:r
@@ -57,6 +57,7 @@ function row_keys(M::FlexMatrix)
     firsts = unique( [ k[1] for k in keys(M) ] )
     try
         sort!(firsts)
+    catch
     end
     return firsts
 end
@@ -69,11 +70,12 @@ function col_keys(M::FlexMatrix)
     seconds = unique( [ k[2] for k in keys(M) ] )
     try
         sort!(seconds)
+    catch
     end
     return seconds
 end
 
-function getindex{R,C,T}(A::FlexMatrix{R,C,T}, i, j)
+function getindex(A::FlexMatrix{R,C,T}, i, j) where {R,C,T}
     if haskey(A.data,(i,j))
         return A.data[i,j]
     end
@@ -113,14 +115,16 @@ function Matrix(A::FlexMatrix)
     cols = collect(col_keys(A))
     try
         sort!(rows)
+    catch
     end
     try
         sort!(cols)
+    catch
     end
     r = length(rows)
     c = length(cols)
 
-    R = Matrix{valtype(A)}(r,c)
+    R = Array{valtype(A),2}(undef,r,c)
     for i=1:r
         for j=1:c
             R[i,j] = A[rows[i],cols[j]]
@@ -130,7 +134,7 @@ function Matrix(A::FlexMatrix)
 end
 
 
-function show{R,C,T}(io::IO, A::FlexMatrix{R,C,T})
+function show(io::IO, A::FlexMatrix{R,C,T}) where {R,C,T}
     rows = row_keys(A)
     cols = col_keys(A)
 
@@ -254,7 +258,7 @@ function delete_col!(A::FlexMatrix, c)
     end
 end
 
-function ctranspose(A::FlexMatrix)
+function adjoint(A::FlexMatrix)
     R = row_keys(A)
     C = col_keys(A)
     T = valtype(A)

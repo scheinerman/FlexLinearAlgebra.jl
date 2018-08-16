@@ -1,6 +1,6 @@
 export FlexVector, FlexOnes, FlexConvert, delete_entry!
 
-immutable FlexVector{S<:Any,T<:Number}
+struct FlexVector{S<:Any,T<:Number}
     data::Dict{S,T}
     function FlexVector{T}(dom) where T<:Number
         S = eltype(dom)
@@ -33,7 +33,7 @@ FlexOnes(dom) = FlexOnes(Float64,dom)
 `FlexConvert(vec)` converts the vector `vec` into a
 `FlexVector`.
 """
-function FlexConvert{T}(v::Vector{T})
+function FlexConvert(v::Vector{T}) where T
     n = length(v)
     w = FlexVector{T}(1:n)
     for k=1:n
@@ -46,9 +46,10 @@ function Vector(v::FlexVector)
     klist = collect(keys(v))
     try
         sort!(klist)
+    catch
     end
     n = length(klist)
-    result = Vector{valtype(v)}(n)
+    result = Array{valtype(v),1}(undef,n)
     for k=1:n
         result[k] = v[klist[k]]
     end
@@ -68,17 +69,18 @@ haskey(v::FlexVector, k) = haskey(v.data,k)
 
 setindex!(v::FlexVector, x, i) = setindex!(v.data,x,i)
 
-function getindex{S,T}(v::FlexVector{S,T}, i)::T
+function getindex(v::FlexVector{S,T}, i)::T where {S,T}
     if haskey(v.data,i)
         return getindex(v.data,i)
     end
     return zero(T)
 end
 
-function show{S,T}(io::IO,v::FlexVector{S,T})
+function show(io::IO,v::FlexVector{S,T}) where {S,T}
     klist = collect(keys(v))
     try
         sort!(klist)
+    catch
     end
     println(io, "FlexVector{$S,$T}:")
     for k in klist

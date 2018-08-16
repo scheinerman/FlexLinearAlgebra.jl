@@ -1,9 +1,11 @@
 module FlexLinearAlgebra
+using LinearAlgebra
 
-import Base: (+), (-), (*), (==), dot, sum, (.*),
+import Base: (+), (-), (*), (==), sum, (.*),
     getindex, setindex!, hash, show, keys, values, size,
-    keytype, valtype, length, haskey, hash, Vector, Matrix, ctranspose
+    keytype, valtype, length, haskey, hash, Vector, Matrix
 
+import LinearAlgebra: dot, adjoint
 
 include("FlexVector.jl")
 include("FlexMatrix.jl")
