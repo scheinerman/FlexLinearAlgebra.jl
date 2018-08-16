@@ -27,7 +27,7 @@ delete_entry!(v,5)
 delete_entry!(v,5)
 @test sum(v) == 5
 
-M = FlexConvert(eye(Int,3))
+M = FlexConvert(Matrix{Int}(I,3,3))
 @test M[1,1]==1
 S = Set(1:3)
 @test Set(row_keys(M)) == S
