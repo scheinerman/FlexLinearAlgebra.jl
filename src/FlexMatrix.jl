@@ -258,7 +258,7 @@ function delete_col!(A::FlexMatrix, c)
     end
 end
 
-function adjoint(A::FlexMatrix)
+function LinearAlgebra.adjoint(A::FlexMatrix)
     R = row_keys(A)
     C = col_keys(A)
     T = valtype(A)
