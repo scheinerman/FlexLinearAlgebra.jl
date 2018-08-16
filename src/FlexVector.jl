@@ -130,7 +130,7 @@ end
 
 # This is a quick-and-dirty implementation. Can probably do something
 # more efficient but nothing here is efficient :-)
-function dot(v::FlexVector,w::FlexVector)
+function LinearAlgebra.dot(v::FlexVector,w::FlexVector)
     vw = _mush(v,w)
     for k in keys(vw)
         vw[k] = v[k]' * w[k]

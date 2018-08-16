@@ -3,8 +3,9 @@ using LinearAlgebra
 
 import Base: (+), (-), (*), (==), sum, (.*),
     getindex, setindex!, hash, show, keys, values, size,
-    keytype, valtype, length, haskey, hash, Vector, Matrix,
-    dot, adjoint
+    keytype, valtype, length, haskey, hash, Vector, Matrix
+
+#    dot, adjoint
 
 #import LinearAlgebra: dot, adjoint
 
