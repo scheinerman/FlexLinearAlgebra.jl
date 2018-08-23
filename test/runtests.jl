@@ -66,3 +66,7 @@ delete_col!(A,5)
 
 A = FlexOnes(1:3,6:12) + im * FlexOnes(1:3,6:12)
 @test Matrix(A') == Matrix(A)'
+
+v = FlexOnes(Complex,1:4)
+v[4] = 2im
+@test dot(v,v) == (v'*v)[1]

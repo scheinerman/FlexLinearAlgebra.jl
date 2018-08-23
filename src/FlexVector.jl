@@ -12,6 +12,11 @@ struct FlexVector{S<:Any,T<:Number}
     end
 end
 
+"""
+`FlexVector{T}(idx)` creates a new `FlexVector`
+with entries indexed by `idx` filled with zeros of
+type `T` (which defaults to `Number`)
+"""
 FlexVector(dom) = FlexVector{Float64}(dom)
 FlexVector() = FlexVector(Int[])
 
@@ -165,4 +170,13 @@ function delete_entry!(v::FlexVector, x)
         delete!(v.data,x)
     end
     return v
+end
+
+function LinearAlgebra.adjoint(v::FlexVector)
+    S = valtype(v)
+    vv = FlexMatrix{S}(1,keys(v))
+    for k in keys(v)
+        vv[1,k] = v[k]'
+    end
+    return vv
 end
