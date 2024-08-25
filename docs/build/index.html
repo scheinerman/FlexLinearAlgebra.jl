@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>FlexLinearAlgebra · FlexLinearAlgebra</title><meta name="title" content="FlexLinearAlgebra · FlexLinearAlgebra"/><meta property="og:title" content="FlexLinearAlgebra · FlexLinearAlgebra"/><meta property="twitter:title" content="FlexLinearAlgebra · FlexLinearAlgebra"/><meta name="description" content="Documentation for FlexLinearAlgebra."/><meta property="og:description" content="Documentation for FlexLinearAlgebra."/><meta property="twitter:description" content="Documentation for FlexLinearAlgebra."/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>FlexLinearAlgebra</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>FlexLinearAlgebra</a><ul class="internal"><li><a class="tocitem" href="#The-FlexVector"><span>The <code>FlexVector</code></span></a></li><li><a class="tocitem" href="#Vector-arithmetic"><span>Vector arithmetic</span></a></li><li><a class="tocitem" href="#The-FlexMatrix"><span>The <code>FlexMatrix</code></span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>FlexLinearAlgebra</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>FlexLinearAlgebra</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/scheinerman/FlexLinearAlgebra.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/scheinerman/FlexLinearAlgebra.jl/blob/master/docs/src/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="FlexLinearAlgebra"><a class="docs-heading-anchor" href="#FlexLinearAlgebra">FlexLinearAlgebra</a><a id="FlexLinearAlgebra-1"></a><a class="docs-heading-anchor-permalink" href="#FlexLinearAlgebra" title="Permalink"></a></h1><p>A typical vector is indexed by integers 1, 2, 3, ..., n. The goal of this package is to create vectors (and eventually matrices) with arbitrary index sets.</p><h2 id="The-FlexVector"><a class="docs-heading-anchor" href="#The-FlexVector">The <code>FlexVector</code></a><a id="The-FlexVector-1"></a><a class="docs-heading-anchor-permalink" href="#The-FlexVector" title="Permalink"></a></h2><p>A <code>FlexVector</code> behaves much like a linear algebra vector, but the index set can be arbitrary. A new, all zero-valued vector is created by calling <code>FlexVector(dom)</code> where <code>dom</code> is the index set. This can be any iterable Julia object (such as an <code>Array</code>, <code>Set</code>, etc.). By default, the zero values in this vector are of type <code>Float64</code>, but one can also invoke <code>FlexVector{Int}(dom)</code> and the resulting vector&#39;s values are <code>Int</code>s.</p><pre><code class="nohighlight hljs">julia&gt; using FlexLinearAlgebra
+
+julia&gt; v = FlexVector(4:7)
+FlexVector{Int64,Float64}:
+  4 =&gt; 0.0
+  5 =&gt; 0.0
+  6 =&gt; 0.0
+  7 =&gt; 0.0
+
+julia&gt; w = FlexVector{Int}([1,3,5])
+FlexVector{Int64,Int64}:
+  1 =&gt; 0
+  3 =&gt; 0
+  5 =&gt; 0
+
+julia&gt; dom = [&quot;alpha&quot;, &quot;bravo&quot;, &quot;charlie&quot;]
+3-element Array{String,1}:
+ &quot;alpha&quot;  
+ &quot;bravo&quot;  
+ &quot;charlie&quot;
+
+julia&gt; FlexVector{Complex}(dom)
+FlexVector{String,Complex}:
+  alpha =&gt; 0 + 0im
+  bravo =&gt; 0 + 0im
+  charlie =&gt; 0 + 0im</code></pre><h3 id="Additional-constructors"><a class="docs-heading-anchor" href="#Additional-constructors">Additional constructors</a><a id="Additional-constructors-1"></a><a class="docs-heading-anchor-permalink" href="#Additional-constructors" title="Permalink"></a></h3><p>The function <code>FlexOnes</code> can be used to generate a vector of all ones. Use either <code>FlexOnes(dom)</code> or <code>FlexOnes(T,dom)</code> like this:</p><pre><code class="nohighlight hljs">julia&gt; FlexOnes(3:5)
+FlexVector{Int64,Float64}:
+  3 =&gt; 1.0
+  4 =&gt; 1.0
+  5 =&gt; 1.0
+
+julia&gt; FlexOnes(Complex,3:5)
+FlexVector{Int64,Complex}:
+  3 =&gt; 1 + 0im
+  4 =&gt; 1 + 0im
+  5 =&gt; 1 + 0im</code></pre><p>The function <code>FlexConvert</code> converts an ordinary <code>Vector</code> into a <code>FlexVector</code>. The index set for the result is  <code>1,2,...,n</code> where <code>n</code> is the length of the vector.</p><pre><code class="nohighlight hljs">julia&gt; FlexConvert([1-2im,2+3im])
+FlexVector{Int64,Complex{Int64}}:
+  1 =&gt; 1 - 2im
+  2 =&gt; 2 + 3im</code></pre><h3 id="Accessing-elements-of-a-FlexVector"><a class="docs-heading-anchor" href="#Accessing-elements-of-a-FlexVector">Accessing elements of a <code>FlexVector</code></a><a id="Accessing-elements-of-a-FlexVector-1"></a><a class="docs-heading-anchor-permalink" href="#Accessing-elements-of-a-FlexVector" title="Permalink"></a></h3><p>The values held in a <code>FlexVector</code> may be accessed and modified using the usual Julia square-bracket notation:</p><pre><code class="nohighlight hljs">julia&gt; v[4]=7
+7
+
+julia&gt; v
+FlexVector{Int64,Float64}:
+  4 =&gt; 7.0
+  5 =&gt; 0.0
+  6 =&gt; 0.0
+  7 =&gt; 0.0</code></pre><p>The indices for a <code>FlexVector</code> <code>v</code> can be recovered using <code>keys(v)</code>.</p><p>To delete an entry from a <code>FlexVector</code> use <code>delete_entry!(v,k)</code> where <code>k</code> is the index of the entry to be deleted. </p><p><strong>Note</strong>: It is not an error to access a key that is undefined for a given vector. Even if <code>k</code> is not a key, one may assign to <code>v[k]</code>, in which case the vector is modified to include that value. One may also look up the value <code>v[k]</code> in which case zero is returned and the vector is <em>not</em> modified.</p><h3 id="Convert-to-a-Julia-Vector"><a class="docs-heading-anchor" href="#Convert-to-a-Julia-Vector">Convert to a Julia <code>Vector</code></a><a id="Convert-to-a-Julia-Vector-1"></a><a class="docs-heading-anchor-permalink" href="#Convert-to-a-Julia-Vector" title="Permalink"></a></h3><p>If <code>v</code> is a <code>FlexVector</code>, then <code>Vector(v)</code> converts <code>v</code> into a Julia vector. The keys are lost and we simply have the values of <code>v</code> placed into a one-dimensional array.</p><h2 id="Vector-arithmetic"><a class="docs-heading-anchor" href="#Vector-arithmetic">Vector arithmetic</a><a id="Vector-arithmetic-1"></a><a class="docs-heading-anchor-permalink" href="#Vector-arithmetic" title="Permalink"></a></h2><p>Vector addition/subtraction and scalar multiplication are supported. If the domains of the two vectors are not the same, the resulting vector&#39;s domain is the union of the two domains. For example:</p><pre><code class="nohighlight hljs">julia&gt; v = FlexOnes(Complex{Int},1:4)
+FlexVector{Int64,Complex{Int64}}:
+  1 =&gt; 1 + 0im
+  2 =&gt; 1 + 0im
+  3 =&gt; 1 + 0im
+  4 =&gt; 1 + 0im
+
+julia&gt; w = FlexOnes(3:6)
+FlexVector{Int64,Float64}:
+  3 =&gt; 1.0
+  4 =&gt; 1.0
+  5 =&gt; 1.0
+  6 =&gt; 1.0
+
+julia&gt; v+w
+FlexVector{Int64,Complex{Float64}}:
+  1 =&gt; 1.0 + 0.0im
+  2 =&gt; 1.0 + 0.0im
+  3 =&gt; 2.0 + 0.0im
+  4 =&gt; 2.0 + 0.0im
+  5 =&gt; 1.0 + 0.0im
+  6 =&gt; 1.0 + 0.0im</code></pre><p>Notice that the two domains overlap at keys 2 and 3, so the result of the addition at those values is <code>2.0 + 0.0im</code>. At other keys, there&#39;s a tacit zero value taken from the vector that does not have that key.</p><p>The sum of the entries in a vector can be computed with <code>sum(v)</code>. The dot product of two vectors is computed with <code>dot</code>. If <code>v</code> contains complex values, then <code>dot(v,w)</code> conjugates the values in <code>v</code>.</p><pre><code class="nohighlight hljs">julia&gt; v
+FlexVector{Int64,Float64}:
+  1 =&gt; 2.0
+  2 =&gt; 4.0
+
+julia&gt; w
+FlexVector{Int64,Float64}:
+  1 =&gt; 3.0
+  2 =&gt; 5.0
+
+julia&gt; dot(v,w)
+26.0
+
+julia&gt; v = FlexConvert([1-2im,2+3im])
+FlexVector{Int64,Complex{Int64}}:
+  1 =&gt; 1 - 2im
+  2 =&gt; 2 + 3im
+
+julia&gt; w = FlexConvert([-3im,5+2im])
+FlexVector{Int64,Complex{Int64}}:
+  1 =&gt; 0 - 3im
+  2 =&gt; 5 + 2im
+
+julia&gt; dot(v,w)
+22 - 14im
+
+julia&gt; dot(w,v)
+22 + 14im</code></pre><h2 id="The-FlexMatrix"><a class="docs-heading-anchor" href="#The-FlexMatrix">The <code>FlexMatrix</code></a><a id="The-FlexMatrix-1"></a><a class="docs-heading-anchor-permalink" href="#The-FlexMatrix" title="Permalink"></a></h2><p>A <code>FlexMatrix</code> is the 2-dimensional analogue of a <code>FlexVector</code>. Important functions include:</p><ul><li>Arithmetic: Addition, subtraction, and multiplication (scalar, matrix-matrix, and matrix-vector).</li><li>Indexing: Usual <code>A[i,j]</code> notation. Also see <code>row_keys</code> and <code>col_keys</code> to get a list for the row/column names.</li><li><code>FlexConvert</code> to convert a Julia matrix into a <code>FlexMatrix</code>.</li><li><code>Matrix(A)</code> to convert a <code>FlexMatrix</code> <code>A</code> into a Julia matrix.</li><li><code>delete_row!(A,r)</code> and <code>delete_col!(A,c)</code> are used to delete the line of <code>A</code> specified.</li></ul><p>Note that assigning to a matrix <code>A[i,j]=x</code> will not fail. The set of row and column names will simply be expanded and extra slots filled with zeros.</p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.5.0 on <span class="colophon-date" title="Sunday 25 August 2024 15:39">Sunday 25 August 2024</span>. Using Julia version 1.10.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

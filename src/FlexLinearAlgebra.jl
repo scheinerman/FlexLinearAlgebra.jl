@@ -1,9 +1,26 @@
 module FlexLinearAlgebra
 using LinearAlgebra
 
-import Base: (+), (-), (*), (==), sum, #(.*),
-    getindex, setindex!, hash, show, keys, values, size,
-    keytype, valtype, length, haskey, hash, Vector, Matrix
+import Base:
+    (+),
+    (-),
+    (*),
+    (==),
+    sum, #(.*),
+    getindex,
+    setindex!,
+    hash,
+    show,
+    keys,
+    values,
+    size,
+    keytype,
+    valtype,
+    length,
+    haskey,
+    hash,
+    Vector,
+    Matrix
 
 #    dot, adjoint
 

@@ -1,6 +1,6 @@
 name = "FlexLinearAlgebra"
 uuid = "b67e1e5a-d13e-5892-ad81-fb75f5903773"
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
